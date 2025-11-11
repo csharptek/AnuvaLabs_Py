@@ -44,8 +44,7 @@ The API will be available at http://localhost:8000
 
 ## API Endpoints
 
-- `POST /login`: Authenticate with username and password to get tokens
-- `POST /login/json`: Alternative login endpoint that accepts JSON instead of form data
+- `POST /login`: Authenticate with username and password (JSON format) to get tokens
 - `POST /refresh-token`: Refresh access and refresh tokens
 - `GET /me`: Get current user details (protected route)
 
@@ -72,4 +71,3 @@ The application comes with two pre-configured users:
 
 - Access token expiry: 1 hour
 - Refresh token expiry: 7 days
-

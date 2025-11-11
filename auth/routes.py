@@ -2,7 +2,7 @@
 API routes for authentication and user endpoints.
 """
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from auth.models import User, UserLogin, Token, RefreshToken
 from auth.service import (
@@ -16,16 +16,16 @@ from auth.jwt_helper import decode_token, verify_token_type
 # Create router
 router = APIRouter()
 
-# OAuth2 scheme for token authentication
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+# HTTP Bearer scheme for token authentication
+security = HTTPBearer()
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> User:
     """
     Dependency to get the current authenticated user.
     
     Args:
-        token: JWT access token from request
+        credentials: HTTP Bearer credentials containing the JWT token
         
     Returns:
         Current authenticated user
@@ -33,6 +33,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
     Raises:
         HTTPException: If token is invalid or user not found
     """
+    # Extract token from credentials
+    token = credentials.credentials
+    
     # Decode and validate the token
     payload = decode_token(token)
     
@@ -61,32 +64,12 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
 
 
 @router.post("/login", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+async def login(user_data: UserLogin):
     """
     Authenticate user and return access and refresh tokens.
     
     Args:
-        form_data: OAuth2 password request form
-        
-    Returns:
-        Token object with access_token, refresh_token, and token_type
-    """
-    # Authenticate user
-    user = authenticate_user(form_data.username, form_data.password)
-    
-    # Create tokens
-    tokens = create_tokens_for_user(user.id)
-    
-    return Token(**tokens)
-
-
-@router.post("/login/json", response_model=Token)
-async def login_json(user_data: UserLogin):
-    """
-    Alternative login endpoint that accepts JSON instead of form data.
-    
-    Args:
-        user_data: User login data
+        user_data: User login data (JSON format)
         
     Returns:
         Token object with access_token, refresh_token, and token_type
@@ -129,4 +112,3 @@ async def get_me(current_user: User = Depends(get_current_user)):
         User object with user details
     """
     return current_user
-
