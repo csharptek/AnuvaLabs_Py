@@ -1,73 +1,78 @@
-# FastAPI JWT Authentication API
+# Security Testing API
 
-A FastAPI REST API project with JWT authentication using access tokens and refresh tokens.
+A FastAPI application with security testing endpoints and JWT authentication.
 
 ## Features
 
-- User authentication using JWT access tokens and refresh tokens
-- Mock user data stored in memory (no database required)
-- Protected routes that require valid JWT access tokens
-- Token refresh functionality
-
-## Project Structure
-
-```
-├── main.py                 # Entry point
-├── config.py               # Token settings and secrets
-├── auth/
-│   ├── __init__.py         # Package initialization
-│   ├── models.py           # Pydantic models
-│   ├── service.py          # User and token logic
-│   ├── jwt_helper.py       # JWT handling
-│   └── routes.py           # API routes
-└── requirements.txt        # Dependencies
-```
-
-## Installation
-
-1. Clone the repository
-2. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Running the Application
-
-Run the application with uvicorn:
-
-```bash
-uvicorn main:app --reload
-```
-
-The API will be available at http://localhost:8000
+- **Security Testing**: Upload ZIP files for mock vulnerability scanning
+- **JWT Authentication**: Secure API access with JWT tokens
 
 ## API Endpoints
 
-- `POST /login`: Authenticate with username and password (JSON format) to get tokens
-- `POST /refresh-token`: Refresh access and refresh tokens
-- `GET /me`: Get current user details (protected route)
+### Security Testing Endpoints
 
-## API Documentation
+1. **POST /api/v1/security-testing/**
+   - Accepts a ZIP file upload (form-data key: "file")
+   - Extracts files from the ZIP and returns mock vulnerability scan results
+   - Example response:
+     ```json
+     {
+       "status": "success",
+       "file_count": 3,
+       "vulnerabilities": [
+         {"file": "main.py", "issues": ["Hardcoded password", "Debug mode enabled"]},
+         {"file": "config.json", "issues": ["Sensitive data exposure"]},
+         {"file": "app.js", "issues": []}
+       ]
+     }
+     ```
 
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+### Authentication Endpoints
 
-## Sample Users
+1. **POST /login**
+   - Authenticate user and get access and refresh tokens
+   - Request body: `{"username": "user", "password": "password"}`
 
-The application comes with two pre-configured users:
+2. **POST /refresh-token**
+   - Refresh access token using refresh token
+   - Request body: `{"refresh_token": "your-refresh-token"}`
 
-1. Admin User:
-   - Username: admin
-   - Password: 12345
-   - Role: Admin
+3. **GET /me**
+   - Get current user details (requires authentication)
 
-2. Regular User:
-   - Username: nippu
-   - Password: 12345
-   - Role: User
+## Installation and Setup
 
-## Token Settings
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/security-testing-api.git
+   cd security-testing-api
+   ```
 
-- Access token expiry: 1 hour
-- Refresh token expiry: 7 days
+2. Create a virtual environment and install dependencies:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+3. Run the application:
+   ```bash
+   python main.py
+   ```
+
+4. Access the API documentation:
+   - Open your browser and navigate to http://localhost:8000/docs
+
+## Testing the API
+
+### Security Testing Endpoint
+
+```bash
+curl -X POST http://localhost:8000/api/v1/security-testing \
+  -F "file=@/path/to/your/file.zip" \
+  -H "Content-Type: multipart/form-data"
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
