@@ -1,73 +1,107 @@
-# FastAPI JWT Authentication API
+# Security Testing API
 
-A FastAPI REST API project with JWT authentication using access tokens and refresh tokens.
+A FastAPI application with security testing endpoints and JWT authentication.
 
 ## Features
 
-- User authentication using JWT access tokens and refresh tokens
-- Mock user data stored in memory (no database required)
-- Protected routes that require valid JWT access tokens
-- Token refresh functionality
-
-## Project Structure
-
-```
-├── main.py                 # Entry point
-├── config.py               # Token settings and secrets
-├── auth/
-│   ├── __init__.py         # Package initialization
-│   ├── models.py           # Pydantic models
-│   ├── service.py          # User and token logic
-│   ├── jwt_helper.py       # JWT handling
-│   └── routes.py           # API routes
-└── requirements.txt        # Dependencies
-```
-
-## Installation
-
-1. Clone the repository
-2. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Running the Application
-
-Run the application with uvicorn:
-
-```bash
-uvicorn main:app --reload
-```
-
-The API will be available at http://localhost:8000
+- **Security Dashboard**: Get mock security testing statistics
+- **Security Testing**: Upload ZIP files for mock vulnerability scanning
+- **JWT Authentication**: Secure API access with JWT tokens
 
 ## API Endpoints
 
-- `POST /login`: Authenticate with username and password (JSON format) to get tokens
-- `POST /refresh-token`: Refresh access and refresh tokens
-- `GET /me`: Get current user details (protected route)
+### Security Testing Endpoints
 
-## API Documentation
+1. **GET /api/v1/dashboard**
+   - Returns mock dashboard statistics for security testing
+   - Example response:
+     ```json
+     {
+       "status": "success",
+       "total_projects": 12,
+       "total_scans": 58,
+       "vulnerabilities_found": 137,
+       "critical_issues": 9,
+       "high_issues": 22,
+       "medium_issues": 45,
+       "low_issues": 61,
+       "recent_scans": [
+         {"project": "E-commerce API", "issues_found": 5, "last_scan": "2025-11-12"},
+         {"project": "Finance Portal", "issues_found": 3, "last_scan": "2025-11-10"},
+         {"project": "Healthcare App", "issues_found": 7, "last_scan": "2025-11-08"}
+       ]
+     }
+     ```
 
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+2. **POST /api/v1/security-testing/**
+   - Accepts a ZIP file upload (form-data key: "file")
+   - Extracts files from the ZIP and returns mock vulnerability scan results
+   - Example response:
+     ```json
+     {
+       "status": "success",
+       "file_count": 3,
+       "vulnerabilities": [
+         {"file": "main.py", "issues": ["Hardcoded password", "Debug mode enabled"]},
+         {"file": "config.json", "issues": ["Sensitive data exposure"]},
+         {"file": "app.js", "issues": []}
+       ]
+     }
+     ```
 
-## Sample Users
+### Authentication Endpoints
 
-The application comes with two pre-configured users:
+1. **POST /login**
+   - Authenticate user and get access and refresh tokens
+   - Request body: `{"username": "user", "password": "password"}`
 
-1. Admin User:
-   - Username: admin
-   - Password: 12345
-   - Role: Admin
+2. **POST /refresh-token**
+   - Refresh access token using refresh token
+   - Request body: `{"refresh_token": "your-refresh-token"}`
 
-2. Regular User:
-   - Username: nippu
-   - Password: 12345
-   - Role: User
+3. **GET /me**
+   - Get current user details (requires authentication)
 
-## Token Settings
+## Installation and Setup
 
-- Access token expiry: 1 hour
-- Refresh token expiry: 7 days
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/security-testing-api.git
+   cd security-testing-api
+   ```
+
+2. Create a virtual environment and install dependencies:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+3. Run the application:
+   ```bash
+   python main.py
+   ```
+
+4. Access the API documentation:
+   - Open your browser and navigate to http://localhost:8000/docs
+
+## Testing the API
+
+### Dashboard Endpoint
+
+```bash
+curl -X GET http://localhost:8000/api/v1/dashboard
+```
+
+### Security Testing Endpoint
+
+```bash
+curl -X POST http://localhost:8000/api/v1/security-testing \
+  -F "file=@/path/to/your/file.zip" \
+  -H "Content-Type: multipart/form-data"
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
