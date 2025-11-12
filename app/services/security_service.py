@@ -206,7 +206,7 @@ def generate_detailed_vulnerabilities(file_name: str) -> List[VulnerabilityDetai
                 "cvssScore": 7.5,
                 "description": "The JSON file contains sensitive information like API keys or passwords.",
                 "recommendation": "Store sensitive data in environment variables or secure vaults, not in JSON configuration files.",
-                "codeSnippet": "{\n  \"api_key\": \"sk_live_51HV9Qp2eZvKYlo2C5PQR\",\n  \"database\": {\n    \"password\": \"db_password_123\"\n  }\n}",
+                "codeSnippet": "{\n  \"api_key\": \"api_key_example_12345\",\n  \"database\": {\n    \"password\": \"db_password_123\"\n  }\n}",
                 "fix": "{\n  \"api_key\": \"${API_KEY}\",\n  \"database\": {\n    \"password\": \"${DB_PASSWORD}\"\n  }\n}"
             }
         ]
