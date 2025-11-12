@@ -8,47 +8,7 @@ import random
 from datetime import date, timedelta
 from typing import List, Dict, Any
 
-from app.models.security import RecentScan, VulnerabilityItem
-
-
-def get_mock_dashboard_data() -> Dict[str, Any]:
-    """
-    Generate mock dashboard statistics for security testing.
-    
-    Returns:
-        Dictionary with mock dashboard statistics
-    """
-    # Generate mock recent scans
-    recent_scans = [
-        RecentScan(
-            project="E-commerce API",
-            issues_found=5,
-            last_scan=date.today()
-        ),
-        RecentScan(
-            project="Finance Portal",
-            issues_found=3,
-            last_scan=date.today() - timedelta(days=2)
-        ),
-        RecentScan(
-            project="Healthcare App",
-            issues_found=7,
-            last_scan=date.today() - timedelta(days=4)
-        )
-    ]
-    
-    # Generate mock dashboard data
-    return {
-        "status": "success",
-        "total_projects": 12,
-        "total_scans": 58,
-        "vulnerabilities_found": 137,
-        "critical_issues": 9,
-        "high_issues": 22,
-        "medium_issues": 45,
-        "low_issues": 61,
-        "recent_scans": recent_scans
-    }
+from app.models.security import VulnerabilityItem
 
 
 def process_zip_file(file_content: bytes) -> Dict[str, Any]:
@@ -171,4 +131,3 @@ def generate_mock_issues(file_name: str) -> List[str]:
     else:
         # No issues found
         return []
-

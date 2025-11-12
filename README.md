@@ -4,7 +4,6 @@ A FastAPI application with security testing endpoints and JWT authentication.
 
 ## Features
 
-- **Security Dashboard**: Get mock security testing statistics
 - **Security Testing**: Upload ZIP files for mock vulnerability scanning
 - **JWT Authentication**: Secure API access with JWT tokens
 
@@ -12,28 +11,7 @@ A FastAPI application with security testing endpoints and JWT authentication.
 
 ### Security Testing Endpoints
 
-1. **GET /api/v1/dashboard**
-   - Returns mock dashboard statistics for security testing
-   - Example response:
-     ```json
-     {
-       "status": "success",
-       "total_projects": 12,
-       "total_scans": 58,
-       "vulnerabilities_found": 137,
-       "critical_issues": 9,
-       "high_issues": 22,
-       "medium_issues": 45,
-       "low_issues": 61,
-       "recent_scans": [
-         {"project": "E-commerce API", "issues_found": 5, "last_scan": "2025-11-12"},
-         {"project": "Finance Portal", "issues_found": 3, "last_scan": "2025-11-10"},
-         {"project": "Healthcare App", "issues_found": 7, "last_scan": "2025-11-08"}
-       ]
-     }
-     ```
-
-2. **POST /api/v1/security-testing/**
+1. **POST /api/v1/security-testing/**
    - Accepts a ZIP file upload (form-data key: "file")
    - Extracts files from the ZIP and returns mock vulnerability scan results
    - Example response:
@@ -87,12 +65,6 @@ A FastAPI application with security testing endpoints and JWT authentication.
 
 ## Testing the API
 
-### Dashboard Endpoint
-
-```bash
-curl -X GET http://localhost:8000/api/v1/dashboard
-```
-
 ### Security Testing Endpoint
 
 ```bash
@@ -104,4 +76,3 @@ curl -X POST http://localhost:8000/api/v1/security-testing \
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-

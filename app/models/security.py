@@ -6,26 +6,6 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 
-class RecentScan(BaseModel):
-    """Model for recent scan information."""
-    project: str
-    issues_found: int
-    last_scan: date
-
-
-class DashboardResponse(BaseModel):
-    """Response model for dashboard statistics."""
-    status: str = "success"
-    total_projects: int
-    total_scans: int
-    vulnerabilities_found: int
-    critical_issues: int
-    high_issues: int
-    medium_issues: int
-    low_issues: int
-    recent_scans: List[RecentScan]
-
-
 class VulnerabilityItem(BaseModel):
     """Model for vulnerability item."""
     file: str
@@ -44,4 +24,3 @@ class ErrorResponse(BaseModel):
     status: str = "error"
     message: str
     details: Optional[Dict[str, Any]] = None
-

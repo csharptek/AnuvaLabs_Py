@@ -63,7 +63,6 @@ async def root():
         "message": "Welcome to Security Testing API",
         "docs_url": "/docs",
         "endpoints": {
-            "dashboard": "/api/v1/dashboard",
             "security_testing": "/api/v1/security-testing"
         }
     }
@@ -72,4 +71,3 @@ async def root():
 if __name__ == "__main__":
     # Run the application with uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-

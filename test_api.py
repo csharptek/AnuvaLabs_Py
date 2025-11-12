@@ -13,23 +13,6 @@ from datetime import datetime
 # API base URL
 BASE_URL = "http://localhost:8000"
 
-def test_dashboard_endpoint():
-    """Test the dashboard endpoint."""
-    print("\n=== Testing Dashboard Endpoint ===")
-    
-    # Make request to dashboard endpoint
-    response = requests.get(f"{BASE_URL}/api/v1/dashboard")
-    
-    # Print response status and data
-    print(f"Status Code: {response.status_code}")
-    if response.status_code == 200:
-        data = response.json()
-        print(json.dumps(data, indent=2))
-        print("✅ Dashboard endpoint test passed!")
-    else:
-        print(f"❌ Error: {response.text}")
-
-
 def test_security_testing_endpoint():
     """Test the security testing endpoint with a sample ZIP file."""
     print("\n=== Testing Security Testing Endpoint ===")
@@ -85,7 +68,6 @@ def main():
             return
         
         # Run tests
-        test_dashboard_endpoint()
         test_security_testing_endpoint()
         
         print("\n✅ All tests completed!")
@@ -98,4 +80,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
