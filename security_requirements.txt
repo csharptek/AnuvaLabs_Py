@@ -1,0 +1,26 @@
+# Security Scanner API Dependencies
+
+# FastAPI and server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Pydantic for data validation
+pydantic==2.5.0
+
+# Security scanning tools
+bandit==1.7.5
+semgrep==1.45.0
+pip-audit==2.6.1
+ruff==0.1.6
+
+# Additional dependencies for security tools
+PyYAML==6.0.1
+requests==2.31.0
+packaging==23.2
+
+# Note: Gitleaks needs to be installed separately as it's a Go binary
+# Download from: https://github.com/gitleaks/gitleaks/releases
+# Or install via: brew install gitleaks (on macOS)
+# Or install via: apt-get install gitleaks (on Ubuntu)
+
